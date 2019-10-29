@@ -881,7 +881,7 @@ endif ()
 
 # From OptionsWin.cmake
 if (WIN32)
-    add_definitions(-DNOMINMAX -DUNICODE -D_UNICODE -D_WINDOWS)
+    add_definitions(-DNOMINMAX -DUNICODE -D_UNICODE -D_WINDOWS -D_WIN32_WINNT=0x601 -DWINVER=0x601)
 endif ()
 
 if (MSVC)
