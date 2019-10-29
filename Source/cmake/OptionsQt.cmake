@@ -696,7 +696,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # From OptionsEfl.cmake
 # Optimize binary size for release builds by removing dead sections on unix/gcc.
-if (COMPILER_IS_GCC_OR_CLANG AND UNIX)
+if (COMPILER_IS_GCC_OR_CLANG)
     if (NOT APPLE)
         set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -ffunction-sections -fdata-sections")
         set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -ffunction-sections -fdata-sections")
