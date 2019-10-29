@@ -34,8 +34,8 @@ cross_compile {
 }
 
 TOOLCHAIN_FILE_VARS += \
-    "CMAKE_C_COMPILER \"$$QMAKE_CC\"" \
-    "CMAKE_CXX_COMPILER \"$$QMAKE_CXX\""
+    "CMAKE_C_COMPILER \"$$QMAKE_CC-posix\"" \
+    "CMAKE_CXX_COMPILER \"$$QMAKE_CXX-posix\""
 
 for (var, TOOLCHAIN_FILE_VARS): TOOLCHAIN_FILE_CONTENTS += "set($$var)"
 
