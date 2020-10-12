@@ -84,13 +84,13 @@ SocketStreamHandlePrivate::~SocketStreamHandlePrivate()
 
 void SocketStreamHandlePrivate::initConnections()
 {
-    connect(m_socket, SIGNAL(connected()), this, SLOT(socketConnected()));
-    connect(m_socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
-    connect(m_socket, SIGNAL(disconnected()), this, SLOT(socketClosed()));
+    connect(m_socket, SIGNAL(connected()), this, SLOT(socketConnected()), Qt::QueuedConnection);
+    connect(m_socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()), Qt::QueuedConnection);
+    connect(m_socket, SIGNAL(disconnected()), this, SLOT(socketClosed()), Qt::QueuedConnection);
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 #ifndef QT_NO_SSL
     if (qobject_cast<QSslSocket*>(m_socket))
-        connect(m_socket, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)));
+        connect(m_socket, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(socketSslErrors(const QList<QSslError>&)), Qt::QueuedConnection);
 #endif
 
     // Check for missed signals and call the slots asynchronously to allow a client to be set first.
