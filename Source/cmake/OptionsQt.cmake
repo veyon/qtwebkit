@@ -13,6 +13,9 @@ set(PROJECT_VERSION_STRING "${PROJECT_VERSION}")
 
 set(QT_CONAN_DIR "" CACHE PATH "Directory containing conanbuildinfo.cmake and conanfile.txt")
 if (QT_CONAN_DIR)
+    if (NOT QT_CONAN_FILE)
+        set(QT_CONAN_FILE "${QT_CONAN_DIR}/conanfile.txt")
+    endif ()
     message(STATUS "Using conan directory: ${QT_CONAN_DIR}")
     find_program(CONAN_COMMAND NAMES conan PATHS $ENV{PIP3_PATH})
     if (NOT CONAN_COMMAND)
@@ -31,7 +34,7 @@ if (QT_CONAN_DIR)
 
         message(STATUS \"Importing dependencies from conan to \${_conan_imports_dest}\")
         execute_process(
-            COMMAND \"${CONAN_COMMAND}\" imports --import-folder \${_conan_imports_dest} \"${QT_CONAN_DIR}/conanfile.txt\"
+            COMMAND \"${CONAN_COMMAND}\" imports --import-folder \${_conan_imports_dest} \"${QT_CONAN_FILE}\"
             WORKING_DIRECTORY \"${QT_CONAN_DIR}\"
             RESULT_VARIABLE _conan_imports_result
         )
@@ -169,7 +172,10 @@ macro(QTWEBKIT_SEPARATE_DEBUG_INFO _target _target_debug)
     endif ()
 endmacro()
 
-set(CMAKE_MACOSX_RPATH ON)
+if (APPLE)
+    set(CMAKE_MACOSX_RPATH ON)
+    set(CMAKE_FIND_FRAMEWORK LAST)
+endif ()
 
 add_definitions(-DBUILDING_QT__=1)
 add_definitions(-DQT_NO_EXCEPTIONS)
